@@ -1,18 +1,19 @@
-name: model_wine_quality
+name: model_wine_quality_v2
 on: [push]
 jobs:
-  run:
-    runs-on: [ubuntu-latest]
-    # optionally use a convenient Ubuntu LTS + DVC + CML image
-    container: docker://dvcorg/cml-py3:latest
+  train-model:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: iterative/setup-tools@v1
-      - name: Write CML report
+      - uses: actions/checkout@v2
+      - uses: iterative/setup-cml@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Train model
         env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pip install -r requirements.txt
+          pip3 install -r requirements.txt
           python train.py
           echo "MODEL METRICS"
           cat model_metrics.txt
