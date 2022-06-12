@@ -5,10 +5,10 @@ jobs:
     runs-on: [ubuntu-latest]
     # optionally use a convenient Ubuntu LTS + DVC + CML image
     container: docker://dvcorg/cml-py3:latest
-      steps:
-        - uses: actions/checkout@v3
-        - uses: iterative/setup-tools@v1
-        - name: Write CML report
+    steps:
+      - uses: actions/checkout@v3
+      - uses: iterative/setup-tools@v1
+      - name: Write CML report
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -16,4 +16,3 @@ jobs:
           python train.py
           echo "MODEL METRICS"
           cat model_metrics.txt
-          
